@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peña La Feria · Portal del Socio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<main class="page">
+
+  <header class="header">
+    <img src="logo.png" class="cabecera" alt="Peña La Feria">
+  </header>
+
+  <section id="login" class="login-box">
+    <h1>Portal del Socio</h1>
+    <p>Introduce tu código de socio para acceder.</p>
+
+    <input id="codigoInput" type="text" placeholder="Ej: 27X">
+    <button onclick="entrar()">Entrar</button>
+
+    <p id="error" class="error"></p>
+  </section>
+
+  <section id="portal" class="hidden">
+
+<div class="progreso">
+  <div class="progreso-texto">Paso 1 de 11</div>
+  <div class="progreso-puntos">
+    <span class="activo"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+    <section class="hero">
+      <div>
+        <h1 id="bienvenida">¡Bienvenido!</h1>
+
+        <p>
+Para que nuestra caseta siga siendo posible y continúe mejorando año tras año, es necesaria la colaboración de todos los socios.
+
+      
+        </p>
+
+        <p>
+          Por ello, te pedimos que dediques aproximadamente cinco minutos a leer las siguientes cuestiones y a expresar tu opinión mediante las votaciones propuestas.
+        </p>
+
+        <p>
+          Muchas gracias por tu tiempo y por contribuir a que, entre todos, hagamos una peña cada vez mejor.
+        </p>
+      </div>
+
+     <div class="foto-box">
+  <img src="logopeña.png" class="foto-socio" alt="Logo Peña La Feria">
+</div>
+
+    </section>
+
+<div class="navegacion derecha">
+    <a href="asociacion.html" class="boton-outline">
+        Siguiente →
+    </a>
+</div>
+
+ <footer>
+    Entre todos, hacemos más grande nuestra caseta
+  </footer>
+
+</main>
+
+<script src="socios.js"></script>
+<script src="app.js"></script>
+
+<script>
+document.getElementById("codigoInput").addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+        entrar();
+    }
+});
+</script>
+
+</body>
+
+</body>
+</html>

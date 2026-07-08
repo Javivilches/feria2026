@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asociación · Peña La Feria</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<main class="page">
+
+  <header class="header">
+    <img src="logo.png" class="cabecera" alt="Peña La Feria">
+  </header>
+
+<div class="progreso">
+  <div class="progreso-texto">Paso 2 de 11</div>
+  <div class="progreso-puntos">
+    <span class="activo"></span>
+    <span class="activo"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+  <section class="hero">
+    <div>
+      <h1>Constitución de la Asociación</h1>
+
+      <p>
+        Para mejorar la organización de la peña, disponer de una cuenta bancaria propia
+        y facilitar el pago a todos, se va a proceder a la
+        constitución formal de la 'Asociación Peña La Feria'.
+      </p>
+
+      <p>
+        Los estatutos serán redactados por nuestro compañero y abogado José Benítez. Una vez listos, se pondrán a disposición de todos los socios para ser aprobados.
+      </p>
+
+    </div>
+
+    <div class="foto-box">
+      <img src="logopeña.png" class="foto-socio" alt="Logo Peña La Feria">
+    </div>
+  </section>
+
+ <div class="navegacion doble">
+
+    <a href="index.html" class="boton-outline">
+        ← Atrás
+    </a>
+
+    <a href="presidente.html" class="boton-outline">
+        Siguiente →
+    </a>
+
+</div>
+
+
+
+  <footer>
+    Peña La Feria · Feria de Andújar 2026
+  </footer>
+
+</main>
+
+<script>
+window.onload = function(){
+  const select = document.getElementById("presidente");
+
+  Object.keys(socios).forEach(codigo => {
+    const socio = socios[codigo];
+
+    const option = document.createElement("option");
+    option.value = codigo;
+    option.textContent = socio.nombre;
+
+    select.appendChild(option);
+  });
+};
+
+function votarPresidente(){
+  const select = document.getElementById("presidente");
+  const codigo = select.value;
+
+  if(!codigo){
+    document.getElementById("resultado").textContent =
+      "Debes seleccionar un socio antes de votar.";
+    return;
+  }
+
+  document.getElementById("resultado").textContent =
+    "Voto registrado para: " + socios[codigo].nombre;
+}
+</script>
+
+</body>
+</html>

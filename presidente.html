@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presidente · Peña La Feria</title>
+
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+<main class="page">
+
+<header class="header">
+    <img src="logo.png" class="cabecera" alt="Peña La Feria">
+</header>
+
+<div class="progreso">
+  <div class="progreso-texto">Paso 3 de 12</div>
+
+  <div class="progreso-puntos">
+    <span class="activo"></span>
+    <span class="activo"></span>
+    <span class="activo"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<section class="hero">
+
+<div>
+
+<h1>Elección del Presidente</h1>
+
+<p>
+
+Como primer paso para constituir la asociación es necesario elegir un presidente.
+
+</p>
+
+<p>
+
+Una vez elegido, para evitar más votaciones, el presidente elegido presentará un vicepresidente, secretario, vocal y tesorero (son cargos obligatorios para constituir la sociedad).
+
+</p>
+
+<p>
+
+Selecciona de la lista da abajo al socio que consideres más adecuado para desempeñar esta función.
+
+</p>
+
+</div>
+
+<div class="foto-box">
+
+<img src="logopeña.png" class="foto-socio" alt="Logo Peña La Feria">
+
+</div>
+
+</section>
+
+<section class="login-box">
+
+<h1>Votación</h1>
+
+<p>
+
+¿A qué socio deseas votar como presidente?
+
+</p>
+
+<div id="listaPresidentes" class="lista-radios"></div>
+
+<a class="btn-voto" onclick="votarPresidente()">
+
+Emitir voto
+
+</a>
+
+<p id="resultado" class="error"></p>
+
+</section>
+
+<div class="navegacion doble">
+
+<a href="asociacion.html" class="boton-outline">
+
+← Atrás
+
+</a>
+
+<a href="direccion.html" class="boton-outline">
+
+Siguiente →
+
+</a>
+
+</div>
+
+<footer>
+
+Peña La Feria · Feria de Andújar 2026
+
+</footer>
+
+</main>
+
+<script src="socios.js"></script>
+
+<script src="socios.js"></script>
+
+<script>
+window.onload = function(){
+
+  const lista = document.getElementById("listaPresidentes");
+
+  Object.keys(socios).forEach(codigo => {
+
+    const label = document.createElement("label");
+    label.className = "radio-item";
+
+    label.innerHTML = `
+      <input type="radio" name="presidente" value="${codigo}">
+      <span>${socios[codigo].nombre}</span>
+    `;
+
+    lista.appendChild(label);
+  });
+};
+
+function votarPresidente(){
+
+  const seleccionado = document.querySelector('input[name="presidente"]:checked');
+
+  if(!seleccionado){
+    document.getElementById("resultado").textContent = "Selecciona un socio.";
+    return;
+  }
+
+  document.getElementById("resultado").textContent =
+    "Respuesta guardada: " + socios[seleccionado.value].nombre;
+}
+</script>
+</body>
+</html>
