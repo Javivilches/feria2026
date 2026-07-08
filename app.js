@@ -12,15 +12,13 @@ function entrar() {
 function mostrarPortal(codigo) {
   const socio = socios[codigo];
 
-localStorage.setItem("nombre", socio.nombre);
-localStorage.setItem("codigo", codigo);
+  localStorage.setItem("nombre", socio.nombre);
+  localStorage.setItem("codigo", codigo);
 
   document.getElementById("login").classList.add("hidden");
   document.getElementById("portal").classList.remove("hidden");
 
   document.getElementById("bienvenida").textContent = `¡Bienvenido, ${socio.nombre}!`;
-
-  document.getElementById("nombreSocioEstado").textContent = socio.nombre;
 
   history.replaceState(null, "", `?socio=${codigo}`);
 }
@@ -31,6 +29,5 @@ window.onload = function () {
 
   if (codigo && socios[codigo]) {
     mostrarPortal(codigo);
-
   }
 };
