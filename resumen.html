@@ -17,20 +17,11 @@
 
 <div class="progreso">
     <div class="progreso-texto">Paso 12 de 12</div>
-
     <div class="progreso-puntos">
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
-        <span class="activo"></span>
+        <span class="activo"></span><span class="activo"></span><span class="activo"></span>
+        <span class="activo"></span><span class="activo"></span><span class="activo"></span>
+        <span class="activo"></span><span class="activo"></span><span class="activo"></span>
+        <span class="activo"></span><span class="activo"></span><span class="activo"></span>
     </div>
 </div>
 
@@ -40,45 +31,43 @@
 
 <h1>Resumen de tus respuestas</h1>
 
-<p>
-Antes de finalizar, revisa que todas tus respuestas sean correctas.
-</p>
+<p>Antes de finalizar, revisa que todas tus respuestas sean correctas.</p>
 
 <div class="normas-grid">
 
 <div class="norma-card">
 <h3>Presidente</h3>
-<p id="r_presidente">José Benítez</p>
+<p id="r_presidente"></p>
 </div>
 
 <div class="norma-card">
-<h3>Encargado Jose Vilches</h3>
-<p id="r_coordinador">De acuerdo</p>
+<h3>Encargado José Vilches</h3>
+<p id="r_coordinador"></p>
 </div>
 
 <div class="norma-card">
 <h3>Proyecto musical</h3>
-<p id="r_musica">De acuerdo</p>
+<p id="r_musica"></p>
 </div>
 
 <div class="norma-card">
 <h3>Norma del DJ</h3>
-<p id="r_dj">De acuerdo</p>
+<p id="r_dj"></p>
 </div>
 
 <div class="norma-card">
 <h3>Norma del almacén</h3>
-<p id="r_almacen">De acuerdo</p>
+<p id="r_almacen"></p>
 </div>
 
 <div class="norma-card">
 <h3>Figura decorativa</h3>
-<p id="r_figura">De acuerdo</p>
+<p id="r_figura"></p>
 </div>
 
 <div class="norma-card">
 <h3>Grupo musical</h3>
-<p id="r_grupo">De acuerdo</p>
+<p id="r_grupo"></p>
 </div>
 
 </div>
@@ -93,13 +82,9 @@ Antes de finalizar, revisa que todas tus respuestas sean correctas.
 
 <div class="navegacion doble">
 
-<a href="extra2.html" class="boton-outline">
-← Atrás
-</a>
+<a href="extra2.html" class="boton-outline">← Atrás</a>
 
-<a href="finalizar.html" class="boton-outline">
-Finalizar →
-</a>
+<a href="finalizar.html" class="boton-outline">Finalizar →</a>
 
 </div>
 
@@ -108,6 +93,37 @@ Peña La Feria · Feria de Andújar 2026
 </footer>
 
 </main>
+
+<script src="guardar.js"></script>
+
+<script>
+function textoSiNo(valor){
+    if(valor === "si") return "De acuerdo";
+    if(valor === "no") return "No estoy de acuerdo";
+    return "Sin responder";
+}
+
+document.getElementById("r_presidente").textContent =
+    obtenerRespuesta("presidente") || "Sin responder";
+
+document.getElementById("r_coordinador").textContent =
+    textoSiNo(obtenerRespuesta("coordinador"));
+
+document.getElementById("r_musica").textContent =
+    textoSiNo(obtenerRespuesta("musica"));
+
+document.getElementById("r_dj").textContent =
+    textoSiNo(obtenerRespuesta("norma_musica"));
+
+document.getElementById("r_almacen").textContent =
+    textoSiNo(obtenerRespuesta("norma_almacen"));
+
+document.getElementById("r_figura").textContent =
+    textoSiNo(obtenerRespuesta("figura"));
+
+document.getElementById("r_grupo").textContent =
+    textoSiNo(obtenerRespuesta("grupo"));
+</script>
 
 </body>
 </html>
