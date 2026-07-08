@@ -109,7 +109,8 @@ nav a {
 
 .hero {
   .hero{
-  display:block;
+   display:grid;
+  grid-template-columns:1fr;
   gap: 30px;
   background: white;
   border-radius: 18px;
@@ -512,6 +513,40 @@ footer {
 
 .imagen-propuesta:hover{
     transform:scale(1.02);
+}
+
+.foto-box{
+  display:none !important;
+}
+
+.hero::after{
+  display:none !important;
+}
+
+.hero{
+  grid-template-columns:1fr !important;
+}
+
+.navegacion.doble{
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+  gap:15px !important;
+}
+
+.boton-outline{
+  appearance:none;
+  -webkit-appearance:none;
+  display:inline-block;
+  padding:12px 28px;
+  border:3px solid var(--rojo);
+  border-radius:30px;
+  background:white;
+  color:var(--rojo);
+  font-weight:bold;
+  text-decoration:none;
+  font-size:16px;
+  font-family:Arial, sans-serif;
 }
 
 @media(max-width:900px){
