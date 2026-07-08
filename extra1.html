@@ -48,11 +48,15 @@
 
   <div class="normas-grid">
     <div class="norma-card">
-      <img src="figura 1.png" alt="Figura decorativa 1" style="width:100%; border-radius:14px;">
+      <a href="figura 1.png" target="_blank">
+    <img src="figura 1.png" alt="Figura 1" class="imagen-propuesta">
+</a>
     </div>
 
     <div class="norma-card">
-      <img src="figura 2.png" alt="Figura decorativa 2" style="width:100%; border-radius:14px;">
+      <a href="figura 2.png" target="_blank">
+    <img src="figura 2.png" alt="Figura 2" class="imagen-propuesta">
+</a>
     </div>
   </div>
 
@@ -77,7 +81,7 @@
 
 <div class="navegacion doble">
   <a href="extraordinarias.html" class="boton-outline">← Atrás</a>
-  <a href="extra2.html" class="boton-outline">Siguiente →</a>
+ <button class="boton-outline" onclick="continuar()">Siguiente →</button>
 </div>
 
 <footer>
@@ -85,6 +89,22 @@ Peña La Feria · Feria de Andújar 2026
 </footer>
 
 </main>
+<script src="guardar.js"></script>
 
+<script>
+function continuar(){
+
+    const opcion = document.querySelector('input[name="figura"]:checked');
+
+    if(!opcion){
+        alert("Debes seleccionar una opción antes de continuar.");
+        return;
+    }
+
+    guardarRespuesta("figura", opcion.value);
+
+    window.location.href="extra2.html";
+}
+</script>
 </body>
 </html>

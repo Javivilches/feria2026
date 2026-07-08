@@ -84,7 +84,7 @@
 
 <div class="navegacion doble">
   <a href="votacion.html" class="boton-outline">← Atrás</a>
-  <a href="normas.html" class="boton-outline">Siguiente →</a>
+  <button class="boton-outline" onclick="continuar()">Siguiente →</button>
 </div>
 
 <footer>
@@ -92,6 +92,26 @@
 </footer>
 
 </main>
+<script>
+function continuar(){
 
+  const opcion = document.querySelector('input[name="musica"]:checked');
+
+  if(!opcion){
+    alert("Debes seleccionar una opción antes de continuar.");
+    return;
+  }
+
+  guardarRespuesta("musica", opcion.value);
+  guardarRespuesta(
+    "comentario_musica",
+    document.querySelector(".comentario-voto").value
+  );
+
+  window.location.href = "normas.html";
+}
+</script>
+
+<script src="guardar.js"></script>
 </body>
 </html>

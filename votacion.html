@@ -50,7 +50,7 @@
 
       <label class="radio-item">
         <input type="radio" name="coordinador" value="no">
-        <span>No estoy de acuerdo. Me gustaría que la coordinación la asumiera yo mismo u otra persona.</span>
+        <span>No estoy de acuerdo. Me gustaría asumir la coordinación yo mismo u otra persona.</span>
       </label>
 
 <textarea
@@ -69,7 +69,7 @@
 
 <div class="navegacion doble">
   <a href="candidatura.html" class="boton-outline">← Atrás</a>
-  <a href="proyecto.html" class="boton-outline">Siguiente →</a>
+  <button class="boton-outline" onclick="continuar()">Siguiente →</button>
 </div>
 
 <footer>
@@ -77,6 +77,27 @@
 </footer>
 
 </main>
+<script>
+function continuar(){
+
+  const opcion = document.querySelector('input[name="coordinador"]:checked');
+
+  if(!opcion){
+    alert("Debes seleccionar una opción antes de continuar.");
+    return;
+  }
+
+  guardarRespuesta("coordinador", opcion.value);
+  guardarRespuesta(
+    "comentario_coordinador",
+    document.querySelector(".comentario-voto").value
+  );
+
+  window.location.href = "proyecto.html";
+}
+</script>
+
+<script src="guardar.js"></script>
 
 </body>
 </html>

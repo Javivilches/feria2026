@@ -82,14 +82,6 @@ Selecciona de la lista da abajo al socio que consideres más adecuado para desem
 
 <div id="listaPresidentes" class="lista-radios"></div>
 
-<a class="btn-voto" onclick="votarPresidente()">
-
-Emitir voto
-
-</a>
-
-<p id="resultado" class="error"></p>
-
 </section>
 
 <div class="navegacion doble">
@@ -100,11 +92,7 @@ Emitir voto
 
 </a>
 
-<a href="direccion.html" class="boton-outline">
-
-Siguiente →
-
-</a>
+<button class="boton-outline" onclick="irADireccion()">Siguiente →</button>
 
 </div>
 
@@ -118,9 +106,20 @@ Peña La Feria · Feria de Andújar 2026
 
 <script src="socios.js"></script>
 
-<script src="socios.js"></script>
-
 <script>
+
+function irADireccion(){
+  const seleccionado = document.querySelector('input[name="presidente"]:checked');
+
+  if(!seleccionado){
+    alert("Debes seleccionar un presidente antes de continuar.");
+    return;
+  }
+
+  guardarRespuesta("presidente", socios[seleccionado.value].nombre);
+  window.location.href = "direccion.html";
+}
+
 window.onload = function(){
 
   const lista = document.getElementById("listaPresidentes");
@@ -139,18 +138,8 @@ window.onload = function(){
   });
 };
 
-function votarPresidente(){
-
-  const seleccionado = document.querySelector('input[name="presidente"]:checked');
-
-  if(!seleccionado){
-    document.getElementById("resultado").textContent = "Selecciona un socio.";
-    return;
-  }
-
-  document.getElementById("resultado").textContent =
-    "Respuesta guardada: " + socios[seleccionado.value].nombre;
-}
 </script>
+<script src="guardar.js"></script>
+
 </body>
 </html>
