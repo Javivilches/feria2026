@@ -12,8 +12,8 @@ function entrar() {
 function mostrarPortal(codigo) {
   const socio = socios[codigo];
 
-guardarRespuesta("nombre", socio.nombre);
-guardarRespuesta("codigo", codigo);
+localStorage.setItem("nombre", socio.nombre);
+localStorage.setItem("codigo", codigo);
 
   document.getElementById("login").classList.add("hidden");
   document.getElementById("portal").classList.remove("hidden");

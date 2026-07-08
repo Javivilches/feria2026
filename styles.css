@@ -108,9 +108,8 @@ nav a {
 }
 
 .hero {
-  .hero{
-   display:grid;
-  grid-template-columns:1fr;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 30px;
   background: white;
   border-radius: 18px;
@@ -521,10 +520,6 @@ footer {
 
 .hero::after{
   display:none !important;
-}
-
-.hero{
-  grid-template-columns:1fr !important;
 }
 
 .navegacion.doble{
