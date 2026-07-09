@@ -56,4 +56,5 @@ const socios = {
     "54N": { nombre: "NINO ESTEPA", completado: false },
     "55J": { nombre: "ANTONIO EXPÓSITO", completado: false },
     "56A": { nombre: "ALBERTO EXPÓSITO", completado: false }
+    "57A" { nombre: "ADRIÁN", completado: false }
 };
