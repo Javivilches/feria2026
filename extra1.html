@@ -37,7 +37,7 @@
 
   <p>
     Se habló en la reunión celebrada con los socios asistentes y ya se ha abonado una señal
-    para iniciar el encargo (400€), ya que si no no da tiempo a hacerse. No obstante, queremos consultar ahora la opinión de todos los socios para que
+    para iniciar el encargo (400€), ya que si no no da tiempo a hacerse.. No obstante, queremos consultar ahora la opinión de todos los socios para que
     quede reflejado el criterio general de la peña.
   </p>
 
@@ -93,7 +93,7 @@ Peña La Feria · Feria de Andújar 2026
 <script src="guardar.js"></script>
 
 <script>
-function continuar(){
+async function continuar(){
 
     const opcion = document.querySelector('input[name="figura"]:checked');
 
@@ -102,9 +102,8 @@ function continuar(){
         return;
     }
 
-    guardarRespuesta("figura", opcion.value);
-
-    window.location.href="extra2.html";
+ await guardarRespuesta("figura", opcion.value);
+window.location.href="extra2.html";
 }
 </script>
 </body>

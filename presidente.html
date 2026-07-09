@@ -108,7 +108,7 @@ Peña La Feria · Feria de Andújar 2026
 
 <script>
 
-function irADireccion(){
+async function irADireccion(){
   const seleccionado = document.querySelector('input[name="presidente"]:checked');
 
   if(!seleccionado){
@@ -116,8 +116,8 @@ function irADireccion(){
     return;
   }
 
-  guardarRespuesta("presidente", socios[seleccionado.value].nombre);
-  window.location.href = "direccion.html";
+  await guardarRespuesta("presidente", socios[seleccionado.value].nombre);
+window.location.href = "direccion.html";
 }
 
 window.onload = function(){

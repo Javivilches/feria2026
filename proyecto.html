@@ -38,7 +38,7 @@
     <h1>Proyecto musical</h1>
 
     <p>
-      La caseta nació con la intención de ser algo diferente, huyendo de convertir la feria y sus casetas en una discoteca más (de ahí su nombre).
+      La caseta nació con la intención de ser algo diferente, huyendo de convertir la feria y sus casetas en una discoteca más.
     </p>
 
     <p>
@@ -46,7 +46,7 @@
     </p>
 
     <p>
-      Por ejemplo: música comercial tipo <strong>Shakira, Quevedo, Aitana, Karol G, Bad Bunny, Juan Magán o similar</strong>; flamenquito tipo <strong>Los Gipsy Kings, Decai, Fondo Flamenco, El Barrio o similares</strong>; y clásicos de feria como <strong>La Mayonesa, La Bomba, Torero o Sarandonga </strong>.
+      Por ejemplo: música comercial tipo <strong>Shakira, Quevedo, Aitana, Karol G, Bad Bunny, Juan Magán o similar</strong>; flamenquito tipo <strong>El Barrio, Decai, Fondo Flamenco, El Barrio o similares</strong>; y clásicos de feria como <strong>La Mayonesa, La Bomba, Torero o Sarandonga </strong>.
     </p>
 
     <p>
@@ -54,7 +54,7 @@
     </p>
 
 <p>
-      Obviamente, esto no supone un repertorio cerrado; si en algún momento hay que poner algún tema puntual, se pone y ya está.
+      Obviamente, esto no es un repertorio fijo. Si en algún momento hay que poner algún tema puntual, se pone y ya está.
     </p>
 
     <div class="opciones-voto">
@@ -97,7 +97,7 @@
 
 </main>
 <script>
-function continuar(){
+async function continuar(){
 
   const opcion = document.querySelector('input[name="musica"]:checked');
 
@@ -106,13 +106,13 @@ function continuar(){
     return;
   }
 
-  guardarRespuesta("musica", opcion.value);
-  guardarRespuesta(
-    "comentario_musica",
-    document.querySelector(".comentario-voto").value
-  );
+ await guardarRespuesta("musica", opcion.value);
+await guardarRespuesta(
+  "comentario_musica",
+  document.querySelector(".comentario-voto").value
+);
 
-  window.location.href = "normas.html";
+window.location.href = "normas.html";
 }
 </script>
 

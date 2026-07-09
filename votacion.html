@@ -78,7 +78,7 @@
 
 </main>
 <script>
-function continuar(){
+async function continuar(){
 
   const opcion = document.querySelector('input[name="coordinador"]:checked');
 
@@ -87,13 +87,13 @@ function continuar(){
     return;
   }
 
-  guardarRespuesta("coordinador", opcion.value);
-  guardarRespuesta(
-    "comentario_coordinador",
-    document.querySelector(".comentario-voto").value
-  );
+await guardarRespuesta("coordinador", opcion.value);
+await guardarRespuesta(
+  "comentario_coordinador",
+  document.querySelector(".comentario-voto").value
+);
 
-  window.location.href = "proyecto.html";
+window.location.href = "proyecto.html";
 }
 </script>
 

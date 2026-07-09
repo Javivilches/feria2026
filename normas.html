@@ -82,7 +82,7 @@ Con el objetivo de que la caseta funcione de la mejor forma, se proponen dos nor
     </p>
 
     <p>
-      Solo se podrá entrar cuando sea necesario coger algo relacionado con el funcionamiento de la caseta, como herramientas, bridas, bombillas, algún accesorio necesario o para tratar temas de relevancia sobre el desarrollo.
+      Solo se podrá entrar cuando sea necesario coger o hablar algo relacionado con el funcionamiento de la caseta, como herramientas, bridas, bombillas, algún accesorio necesario o tratar temas de relevancia en el funcionamiento.
     </p>
 
 <div class="opciones-norma">
@@ -131,7 +131,7 @@ Peña La Feria · Feria de Andújar 2026
 <script src="guardar.js"></script>
 
 <script>
-function continuar(){
+async function continuar(){
 
     const musica = document.querySelector('input[name="norma_musica"]:checked');
     const almacen = document.querySelector('input[name="norma_almacen"]:checked');
@@ -141,10 +141,10 @@ function continuar(){
         return;
     }
 
-    guardarRespuesta("norma_musica", musica.value);
-    guardarRespuesta("norma_almacen", almacen.value);
+    await guardarRespuesta("norma_musica", musica.value);
+await guardarRespuesta("norma_almacen", almacen.value);
 
-    window.location.href="extraordinarias.html";
+window.location.href="extraordinarias.html";
 }
 </script>
 </body>

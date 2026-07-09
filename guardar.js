@@ -1,6 +1,6 @@
 const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxX1IiPz0RPEuoqTugXhk-6nhE3BSMH-ijEDlP9BeMFpPHqZkyUSN9ifeVmXAWuEOBC/exec";
 
-function guardarRespuesta(clave, valor) {
+async function guardarRespuesta(clave, valor) {
   localStorage.setItem(clave, valor);
 
   const datos = {
@@ -9,15 +9,20 @@ function guardarRespuesta(clave, valor) {
     valor: valor
   };
 
-  const formData = new FormData();
-  formData.append("datos", JSON.stringify(datos));
+  const body = new URLSearchParams();
+  body.append("datos", JSON.stringify(datos));
 
-  fetch(URL_SCRIPT, {
+  await fetch(URL_SCRIPT, {
     method: "POST",
-    body: formData
+    body: body
   });
 }
 
 function obtenerRespuesta(clave) {
   return localStorage.getItem(clave) || "";
+}
+
+async function guardarYAvanzar(clave, valor, destino) {
+  await guardarRespuesta(clave, valor);
+  window.location.href = destino;
 }
