@@ -9,10 +9,12 @@ function guardarRespuesta(clave, valor) {
     valor: valor
   };
 
+  const formData = new FormData();
+  formData.append("datos", JSON.stringify(datos));
+
   fetch(URL_SCRIPT, {
     method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(datos)
+    body: formData
   });
 }
 
