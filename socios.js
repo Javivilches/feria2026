@@ -9,6 +9,7 @@ const socios = {
     "06L": { nombre: "MARÍA MARTÍN MARTÍNEZ", completado: false },
     "07P": { nombre: "MIGUEL ÁNGEL CAÑO", completado: false },
     "21U": { nombre: "JUAN CARLOS \"CHULO\"", completado: false },
+    "58B": { nombre: "JOSÉ ANTONIO ...", completado: false },
     "09H": { nombre: "VÍCTOR MARTÍN MARTÍNEZ", completado: false },
     "10V": { nombre: "JAVI VILCHES", completado: false },
     "11C": { nombre: "MANUEL GIL", completado: false },
