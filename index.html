@@ -1,98 +1,152 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Peña La Feria · Portal del Socio</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resultados de las votaciones | Peña La Feria 2026</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:
+    radial-gradient(circle at top left, rgba(255,255,255,.35), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(255,255,255,.25), transparent 40%),
+    repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,.04) 0px,
+        rgba(255,255,255,.04) 18px,
+        transparent 18px,
+        transparent 36px
+    ),
+    linear-gradient(180deg,#f6efdc 0%,#eadfc3 100%);
+
+    color:#222;
+}
+
+header{
+    text-align:center;
+    padding:40px 15px 25px;
+}
+
+h1{
+    font-size:clamp(34px,6vw,64px);
+    color:#0b6d37;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+h2{
+    margin-top:10px;
+    color:#c62828;
+    font-size:clamp(18px,3vw,30px);
+    font-weight:bold;
+}
+
+.contenedor{
+
+    width:min(1200px,95%);
+    margin:auto;
+    padding-bottom:50px;
+
+}
+
+.tarjeta{
+
+    background:white;
+
+    border:5px solid #008542;
+
+    border-radius:22px;
+
+    padding:14px;
+
+    margin-bottom:35px;
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.18);
+
+}
+
+.tarjeta img{
+
+    width:100%;
+
+    display:block;
+
+    border-radius:12px;
+
+}
+
+footer{
+
+    text-align:center;
+
+    padding:25px;
+
+    color:#0b6d37;
+
+    font-weight:bold;
+
+    font-size:18px;
+
+}
+
+@media(max-width:700px){
+
+header{
+
+padding-top:25px;
+
+}
+
+.tarjeta{
+
+padding:8px;
+
+border-width:3px;
+
+margin-bottom:20px;
+
+}
+
+}
+</style>
+
 </head>
 
 <body>
 
-<main class="page">
+<header>
 
-  <header class="header">
-    <img src="logo.png" class="cabecera" alt="Peña La Feria">
-  </header>
+<h1>Resultados de las votaciones</h1>
 
-  <section id="login" class="login-box">
-    <h1>Portal del Socio</h1>
-    <p>Introduce tu código de socio para acceder.</p>
+<h2>Peña La Feria 2026</h2>
 
-    <input id="codigoInput" type="text" placeholder="Ej: 27X">
-    <button onclick="entrar()">Entrar</button>
+</header>
 
-    <p id="error" class="error"></p>
-  </section>
+<div class="contenedor">
 
-  <section id="portal" class="hidden">
-
-<div class="progreso">
-  <div class="progreso-texto">Paso 1 de 11</div>
-  <div class="progreso-puntos">
-    <span class="activo"></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+<div class="tarjeta">
+<img src="voto1.png" alt="Votación a presidente">
 </div>
 
-    <section class="hero">
-      <div>
-        <h1 id="bienvenida">¡Bienvenido!</h1>
-
-        <p>
-Para que nuestra caseta siga siendo posible y continúe mejorando año tras año, es necesaria la colaboración de todos los socios.
-
-      
-        </p>
-
-        <p>
-          Por ello, te pedimos que dediques aproximadamente cinco minutos a leer las siguientes cuestiones y a expresar tu opinión mediante las votaciones propuestas.
-        </p>
-
-        <p>
-          Muchas gracias por tu tiempo y por contribuir a que, entre todos, hagamos una peña cada vez mejor.
-        </p>
-      </div>
-
-     <div class="foto-box">
-  <img src="logopeña.png" class="foto-socio" alt="Logo Peña La Feria">
+<div class="tarjeta">
+<img src="voto2.png" alt="Resto de votaciones">
 </div>
 
-    </section>
-
-<div class="navegacion derecha">
-    <a href="asociacion.html" class="boton-outline">
-        Siguiente →
-    </a>
 </div>
 
- <footer>
-    Entre todos, hacemos más grande nuestra caseta
-  </footer>
-
-</main>
-
-<script src="socios.js"></script>
-<script src="guardar.js"></script>
-<script src="app.js"></script>
-
-<script>
-document.getElementById("codigoInput").addEventListener("keydown", function(e){
-    if(e.key === "Enter"){
-        entrar();
-    }
-});
-</script>
-
-</body>
+<footer>
+Peña La Feria · Feria de Andújar 2026
+</footer>
 
 </body>
 </html>
