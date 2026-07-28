@@ -588,7 +588,8 @@
       getDatabase,
       ref,
       set,
-      onValue
+      onValue,
+      serverTimestamp
     } from
       "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
@@ -599,14 +600,14 @@
     */
 
   const firebaseConfig = {
-  apiKey: "AIzaSyBGE07hyoxTRor5PrdxLcFBrtq70xBxNOw",
-  authDomain: "pena-la-feria-luces.firebaseapp.com",
-  databaseURL: "https://pena-la-feria-luces-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "pena-la-feria-luces",
-  storageBucket: "pena-la-feria-luces.firebasestorage.app",
-  messagingSenderId: "404658683183",
-  appId: "1:404658683183:web:0c81e55c3a6cd99d3135da"
-};
+      apiKey: "AIzaSyBGE07hyoxTRor5PrdxLcFBrtq70xBxNOw",
+      authDomain: "pena-la-feria-luces.firebaseapp.com",
+      databaseURL: "https://pena-la-feria-luces-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "pena-la-feria-luces",
+      storageBucket: "pena-la-feria-luces.firebasestorage.app",
+      messagingSenderId: "404658683183",
+      appId: "1:404658683183:web:0c81e55c3a6cd99d3135da"
+    };
 
 
     const indicador =
@@ -721,7 +722,13 @@
       try {
         await set(
           referenciaEspectaculo,
-          estadoActual
+          {
+            modo: "manual",
+            color: estadoActual.color,
+            mensaje: estadoActual.mensaje,
+            comandoId:
+              `${Date.now()}-${Math.random()}`
+          }
         );
 
         mostrarRespuesta(
@@ -802,68 +809,13 @@
 
 
     /*
-      PRIMER ESPECTÁCULO DE PRUEBA: "LA BOMBA"
+      ESPECTÁCULO "LA BOMBA"
 
-      El DJ debe pulsar Play justo cuando aparezca "¡YA!".
-      Los tiempos empiezan a contar en ese instante.
+      El administrador ya no envía cada color por separado.
+      Envía una sola orden con una hora común de comienzo.
+      Cada teléfono reproduce localmente la coreografía.
     */
 
-    const programaLaBomba = [
-      { tiempo: 0, color: "#000000" },
-
-      { tiempo: 600, color: "#ffffff" },
-      { tiempo: 900, color: "#000000" },
-
-      { tiempo: 1200, color: "#00d45d" },
-      { tiempo: 1800, color: "#ff1f12" },
-      { tiempo: 2400, color: "#ffffff" },
-      { tiempo: 3000, color: "#00d45d" },
-      { tiempo: 3600, color: "#ff1f12" },
-      { tiempo: 4200, color: "#ffffff" },
-
-      { tiempo: 4800, color: "#ffd400" },
-      { tiempo: 5400, color: "#ffffff" },
-      { tiempo: 6000, color: "#00d45d" },
-      { tiempo: 6600, color: "#ff1f12" },
-      { tiempo: 7200, color: "#ffffff" },
-
-      { tiempo: 7800, color: "#000000" },
-
-      { tiempo: 8200, color: "#ffffff" },
-      { tiempo: 8500, color: "#000000" },
-      { tiempo: 8800, color: "#ffffff" },
-      { tiempo: 9100, color: "#000000" },
-      { tiempo: 9400, color: "#ffffff" },
-
-      { tiempo: 10000, color: "#00d45d" },
-      { tiempo: 10600, color: "#ff1f12" },
-      { tiempo: 11200, color: "#ffffff" },
-      { tiempo: 11800, color: "#00d45d" },
-      { tiempo: 12400, color: "#ff1f12" },
-      { tiempo: 13000, color: "#ffd400" },
-
-      { tiempo: 13600, color: "#ffffff" },
-      { tiempo: 14200, color: "#ff1f12" },
-      { tiempo: 14800, color: "#00d45d" },
-      { tiempo: 15400, color: "#ffffff" },
-      { tiempo: 16000, color: "#ff1f12" },
-
-      { tiempo: 16600, color: "#00d45d" },
-      { tiempo: 17200, color: "#ff1f12" },
-      { tiempo: 17800, color: "#ffffff" },
-      { tiempo: 18400, color: "#ffd400" },
-
-      { tiempo: 19000, color: "#ffffff" },
-      { tiempo: 19300, color: "#000000" },
-      { tiempo: 19600, color: "#ffffff" },
-      { tiempo: 19900, color: "#000000" },
-      { tiempo: 20200, color: "#ff1f12", mensaje: "¡LA BOMBA!" },
-
-      { tiempo: 22000, color: "#000000", mensaje: "" }
-    ];
-
-
-    let temporizadoresEspectaculo = [];
     let temporizadorCuentaAtras = null;
     let cuentaAtrasEnCurso = false;
     let espectaculoEnCurso = false;
@@ -881,15 +833,6 @@
     }
 
 
-    function limpiarTemporizadoresEspectaculo() {
-      temporizadoresEspectaculo.forEach((temporizador) => {
-        window.clearTimeout(temporizador);
-      });
-
-      temporizadoresEspectaculo = [];
-    }
-
-
     function limpiarCuentaAtras() {
       if (temporizadorCuentaAtras !== null) {
         window.clearTimeout(temporizadorCuentaAtras);
@@ -899,111 +842,6 @@
       cuentaAtrasEnCurso = false;
       cuentaAtras.classList.remove("activa");
       cuentaAtras.textContent = "";
-    }
-
-
-    async function enviarEscena(escena) {
-      if (!referenciaEspectaculo) {
-        return;
-      }
-
-      estadoActual = {
-        color: escena.color || "#000000",
-        mensaje: escena.mensaje || ""
-      };
-
-      actualizarVistaPrevia();
-
-      try {
-        await set(
-          referenciaEspectaculo,
-          estadoActual
-        );
-      } catch (error) {
-        console.error(error);
-
-        mostrarRespuesta(
-          "No se ha podido enviar una escena",
-          true
-        );
-      }
-    }
-
-
-    async function ponerPantallasEnNegro() {
-      estadoActual = {
-        color: "#000000",
-        mensaje: ""
-      };
-
-      mensaje.value = "";
-      actualizarVistaPrevia();
-
-      if (referenciaEspectaculo) {
-        try {
-          await set(
-            referenciaEspectaculo,
-            estadoActual
-          );
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }
-
-
-    async function detenerPrograma(apagarPantallas = true) {
-      limpiarCuentaAtras();
-      limpiarTemporizadoresEspectaculo();
-
-      espectaculoEnCurso = false;
-      bloquearControles(false);
-
-      estadoEspectaculo.textContent =
-        "Espectáculo detenido";
-
-      if (apagarPantallas) {
-        await ponerPantallasEnNegro();
-      }
-    }
-
-
-    function ejecutarPrograma(programa) {
-      limpiarTemporizadoresEspectaculo();
-
-      espectaculoEnCurso = true;
-      bloquearControles(true);
-
-      estadoEspectaculo.textContent =
-        "Espectáculo en marcha";
-
-      programa.forEach((escena) => {
-        const temporizador = window.setTimeout(() => {
-          if (espectaculoEnCurso) {
-            enviarEscena(escena);
-          }
-        }, escena.tiempo);
-
-        temporizadoresEspectaculo.push(
-          temporizador
-        );
-      });
-
-      const duracion =
-        programa[programa.length - 1].tiempo;
-
-      const temporizadorFin =
-        window.setTimeout(() => {
-          espectaculoEnCurso = false;
-          bloquearControles(false);
-
-          estadoEspectaculo.textContent =
-            "Espectáculo terminado";
-        }, duracion + 300);
-
-      temporizadoresEspectaculo.push(
-        temporizadorFin
-      );
     }
 
 
@@ -1024,16 +862,47 @@
         return;
       }
 
-      await ponerPantallasEnNegro();
-
       cuentaAtrasEnCurso = true;
+      espectaculoEnCurso = true;
       bloquearControles(true);
+
+      /*
+        La orden se manda ahora, pero todos los móviles
+        comenzarán 4 segundos después de la hora del servidor.
+      */
+      try {
+        await set(
+          referenciaEspectaculo,
+          {
+            modo: "programa",
+            programa: "laBomba",
+            comandoId:
+              `${Date.now()}-${Math.random()}`,
+            comandoEn: serverTimestamp(),
+            retrasoInicio: 4000
+          }
+        );
+      } catch (error) {
+        console.error(error);
+
+        cuentaAtrasEnCurso = false;
+        espectaculoEnCurso = false;
+        bloquearControles(false);
+
+        mostrarRespuesta(
+          "No se ha podido iniciar",
+          true
+        );
+
+        return;
+      }
+
       cuentaAtras.classList.add("activa");
 
       const pasos = ["3", "2", "1", "¡YA!"];
       let posicion = 0;
 
-      function mostrarSiguientePaso() {
+      function siguientePaso() {
         if (!cuentaAtrasEnCurso) {
           return;
         }
@@ -1043,20 +912,28 @@
 
         if (texto === "¡YA!") {
           estadoEspectaculo.textContent =
-            "¡DJ, pulsa Play!";
-
-          /*
-            El programa empieza exactamente cuando aparece "¡YA!".
-          */
-          cuentaAtrasEnCurso = false;
-          ejecutarPrograma(programaLaBomba);
+            "¡DJ, pulsa Play ahora!";
 
           temporizadorCuentaAtras =
             window.setTimeout(() => {
-              cuentaAtras.classList.remove("activa");
-              cuentaAtras.textContent = "";
-              temporizadorCuentaAtras = null;
-            }, 500);
+              limpiarCuentaAtras();
+
+              estadoEspectaculo.textContent =
+                "Espectáculo en marcha";
+            }, 650);
+
+          /*
+            El audio dura aproximadamente 71,5 segundos.
+          */
+          window.setTimeout(() => {
+            if (espectaculoEnCurso) {
+              espectaculoEnCurso = false;
+              bloquearControles(false);
+
+              estadoEspectaculo.textContent =
+                "Espectáculo terminado";
+            }
+          }, 76000);
 
           return;
         }
@@ -1068,12 +945,48 @@
 
         temporizadorCuentaAtras =
           window.setTimeout(
-            mostrarSiguientePaso,
+            siguientePaso,
             1000
           );
       }
 
-      mostrarSiguientePaso();
+      siguientePaso();
+    }
+
+
+    async function detenerPrograma() {
+      limpiarCuentaAtras();
+
+      espectaculoEnCurso = false;
+      bloquearControles(false);
+
+      estadoEspectaculo.textContent =
+        "Espectáculo detenido";
+
+      if (!referenciaEspectaculo) {
+        return;
+      }
+
+      try {
+        await set(
+          referenciaEspectaculo,
+          {
+            modo: "detener",
+            comandoId:
+              `${Date.now()}-${Math.random()}`,
+            comandoEn: serverTimestamp(),
+            color: "#000000",
+            mensaje: ""
+          }
+        );
+      } catch (error) {
+        console.error(error);
+
+        mostrarRespuesta(
+          "No se ha podido detener",
+          true
+        );
+      }
     }
 
 
@@ -1085,7 +998,7 @@
 
     detenerEspectaculo.addEventListener(
       "click",
-      () => detenerPrograma(true)
+      detenerPrograma
     );
 
 
@@ -1145,7 +1058,7 @@
       "click",
 
       async () => {
-        await detenerPrograma(false);
+        await detenerPrograma();
 
         estadoActual = {
           color: "#000000",
