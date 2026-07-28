@@ -334,14 +334,14 @@
     */
 
     const firebaseConfig = {
-  apiKey: "AIzaSyBGE07hyoxTRor5PrdxLcFBrtq70xBxNOw",
-  authDomain: "pena-la-feria-luces.firebaseapp.com",
-  databaseURL: "https://pena-la-feria-luces-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "pena-la-feria-luces",
-  storageBucket: "pena-la-feria-luces.firebasestorage.app",
-  messagingSenderId: "404658683183",
-  appId: "1:404658683183:web:0c81e55c3a6cd99d3135da"
-};
+      apiKey: "AIzaSyBGE07hyoxTRor5PrdxLcFBrtq70xBxNOw",
+      authDomain: "pena-la-feria-luces.firebaseapp.com",
+      databaseURL: "https://pena-la-feria-luces-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "pena-la-feria-luces",
+      storageBucket: "pena-la-feria-luces.firebasestorage.app",
+      messagingSenderId: "404658683183",
+      appId: "1:404658683183:web:0c81e55c3a6cd99d3135da"
+    };
 
 
     const pantalla =
@@ -365,6 +365,205 @@
 
     let firebaseIniciado = false;
     let wakeLock = null;
+    let desfaseServidor = 0;
+    let ultimoComandoId = "";
+    let temporizadoresPrograma = [];
+
+
+    /*
+      Golpes detectados en el audio exacto enviado.
+      Tempo aproximado: 99,38 BPM.
+    */
+    const golpesLaBomba = [
+      163, 766, 1393, 1997, 2601, 3204, 3808, 4412,
+      5016, 5596, 6177, 6780, 7407, 8011, 8591, 9195,
+      9799, 10403, 10983, 11587, 12190, 12794, 13398, 14002,
+      14605, 15209, 15813, 16695, 17299, 17903, 18506, 19110,
+      19691, 20294, 20898, 21502, 22082, 22686, 23290, 23893,
+      24497, 25101, 25705, 26308, 26889, 27492, 28096, 28700,
+      29280, 29884, 30488, 31092, 31672, 32276, 32880, 33483,
+      34064, 34667, 35271, 35875, 36479, 37082, 37686, 38290,
+      38870, 39474, 40078, 40681, 41262, 41866, 42470, 43073,
+      43677, 44280, 44884, 45488, 46068, 46672, 47276, 47880,
+      48460, 49064, 49668, 50294, 50875, 51478, 52082, 52686,
+      53267, 53870, 54474, 55078, 55681, 56285, 56889, 57469,
+      58073, 58677, 59280, 59884, 60465, 61068, 61672, 62276,
+      62880, 63483, 64087, 64691, 65271, 65875, 66479, 67082,
+      67686, 68290, 68894, 69474, 70078
+    ];
+
+
+    function crearProgramaLaBomba() {
+      const escenas = [
+        {
+          tiempo: 0,
+          color: "#000000",
+          mensaje: ""
+        }
+      ];
+
+      const coloresIntro = [
+        "#1565ff",
+        "#00d45d",
+        "#ff1f12",
+        "#ffd400"
+      ];
+
+      const coloresBaile = [
+        "#ff1f12",
+        "#ffd400",
+        "#00d45d",
+        "#1565ff"
+      ];
+
+      golpesLaBomba.forEach((golpe, indice) => {
+        let color = "#000000";
+        let duracionDestello = 0;
+
+        /*
+          Introducción: pulsos espaciados y cortos.
+        */
+        if (indice < 8) {
+          if (indice % 2 !== 0) {
+            return;
+          }
+
+          color =
+            coloresIntro[
+              Math.floor(indice / 2) %
+              coloresIntro.length
+            ];
+
+          duracionDestello = 260;
+        }
+
+        /*
+          Subida: cada golpe empieza a mover la luz.
+        */
+        else if (indice < 24) {
+          color =
+            indice % 4 === 0
+              ? "#ffffff"
+              : coloresBaile[indice % 4];
+
+          duracionDestello =
+            indice % 4 === 0
+              ? 210
+              : 390;
+        }
+
+        /*
+          Parte principal: colores sostenidos al compás.
+          El primer golpe de cada grupo de cuatro es blanco.
+        */
+        else if (indice < 80) {
+          color =
+            indice % 4 === 0
+              ? "#ffffff"
+              : coloresBaile[
+                  Math.floor(indice / 4) %
+                  coloresBaile.length
+                ];
+
+          duracionDestello =
+            indice % 4 === 0
+              ? 190
+              : 500;
+        }
+
+        /*
+          Pequeño descanso musical: menos cambios,
+          dejando respirar el espectáculo.
+        */
+        else if (indice < 88) {
+          if (indice % 2 !== 0) {
+            return;
+          }
+
+          color =
+            indice % 4 === 0
+              ? "#ffffff"
+              : "#ff1f12";
+
+          duracionDestello = 300;
+        }
+
+        /*
+          Tramo final: más energía y cambios en cada golpe.
+        */
+        else {
+          color =
+            indice % 4 === 0
+              ? "#ffffff"
+              : coloresBaile[indice % 4];
+
+          duracionDestello =
+            indice % 4 === 0
+              ? 210
+              : 460;
+        }
+
+        escenas.push({
+          tiempo: golpe,
+          color,
+          mensaje: ""
+        });
+
+        /*
+          Un apagón corto después del golpe crea
+          la sensación clara de destello y movimiento.
+        */
+        escenas.push({
+          tiempo: golpe + duracionDestello,
+          color: "#000000",
+          mensaje: ""
+        });
+      });
+
+      /*
+        Remate final.
+      */
+      escenas.push(
+        {
+          tiempo: 67686,
+          color: "#ffffff",
+          mensaje: ""
+        },
+        {
+          tiempo: 68290,
+          color: "#ff1f12",
+          mensaje: "¡LA BOMBA!"
+        },
+        {
+          tiempo: 68894,
+          color: "#ffd400",
+          mensaje: "¡LA BOMBA!"
+        },
+        {
+          tiempo: 69474,
+          color: "#00d45d",
+          mensaje: "¡LA BOMBA!"
+        },
+        {
+          tiempo: 70078,
+          color: "#ffffff",
+          mensaje: "¡PEÑA LA FERIA!"
+        },
+        {
+          tiempo: 71400,
+          color: "#000000",
+          mensaje: ""
+        }
+      );
+
+      return escenas.sort(
+        (a, b) => a.tiempo - b.tiempo
+      );
+    }
+
+
+    const programaLaBomba =
+      crearProgramaLaBomba();
 
 
     function actualizarEstado(texto, color) {
@@ -374,19 +573,26 @@
     }
 
 
-    function cambiarPantalla(datos) {
-      if (!datos) {
-        return;
-      }
+    function limpiarPrograma() {
+      temporizadoresPrograma.forEach(
+        (temporizador) => {
+          window.clearTimeout(temporizador);
+        }
+      );
 
+      temporizadoresPrograma = [];
+    }
+
+
+    function mostrarEscena(escena) {
       const color =
-        typeof datos.color === "string"
-          ? datos.color
+        typeof escena.color === "string"
+          ? escena.color
           : "#000000";
 
       const mensaje =
-        typeof datos.mensaje === "string"
-          ? datos.mensaje
+        typeof escena.mensaje === "string"
+          ? escena.mensaje
           : "";
 
       pantalla.classList.add("modo-espectaculo");
@@ -399,6 +605,131 @@
       } else {
         mensajeEspectaculo.textContent = "";
         mensajeEspectaculo.style.display = "none";
+      }
+    }
+
+
+    function reproducirPrograma(
+      programa,
+      horaInicioServidor
+    ) {
+      limpiarPrograma();
+
+      const ahoraServidor =
+        Date.now() + desfaseServidor;
+
+      const tiempoTranscurrido =
+        ahoraServidor - horaInicioServidor;
+
+      /*
+        Si el móvil recibe la orden un poco tarde,
+        se coloca directamente en la escena correcta.
+      */
+      let escenaActual = {
+        color: "#000000",
+        mensaje: ""
+      };
+
+      programa.forEach((escena) => {
+        if (escena.tiempo <= tiempoTranscurrido) {
+          escenaActual = escena;
+        }
+      });
+
+      mostrarEscena(escenaActual);
+
+      programa.forEach((escena) => {
+        const espera =
+          escena.tiempo - tiempoTranscurrido;
+
+        if (espera > 0) {
+          const temporizador =
+            window.setTimeout(() => {
+              mostrarEscena(escena);
+            }, espera);
+
+          temporizadoresPrograma.push(
+            temporizador
+          );
+        }
+      });
+    }
+
+
+    function procesarOrden(datos) {
+      if (!datos) {
+        return;
+      }
+
+      const comandoId =
+        typeof datos.comandoId === "string"
+          ? datos.comandoId
+          : "";
+
+      if (
+        comandoId !== "" &&
+        comandoId === ultimoComandoId
+      ) {
+        return;
+      }
+
+      if (comandoId !== "") {
+        ultimoComandoId = comandoId;
+      }
+
+      if (
+        datos.modo === "programa" &&
+        datos.programa === "laBomba" &&
+        typeof datos.comandoEn === "number"
+      ) {
+        const retraso =
+          typeof datos.retrasoInicio === "number"
+            ? datos.retrasoInicio
+            : 4000;
+
+        const horaInicio =
+          datos.comandoEn + retraso;
+
+        reproducirPrograma(
+          programaLaBomba,
+          horaInicio
+        );
+
+        return;
+      }
+
+      if (datos.modo === "detener") {
+        limpiarPrograma();
+
+        mostrarEscena({
+          color: "#000000",
+          mensaje: ""
+        });
+
+        return;
+      }
+
+      /*
+        Mantiene funcionando los botones manuales
+        del panel de administración.
+      */
+      if (
+        datos.modo === "manual" ||
+        typeof datos.color === "string"
+      ) {
+        limpiarPrograma();
+
+        mostrarEscena({
+          color:
+            typeof datos.color === "string"
+              ? datos.color
+              : "#000000",
+
+          mensaje:
+            typeof datos.mensaje === "string"
+              ? datos.mensaje
+              : ""
+        });
       }
     }
 
@@ -461,8 +792,21 @@
         const database =
           getDatabase(app);
 
+        const referenciaDesfase =
+          ref(database, ".info/serverTimeOffset");
+
         const referenciaEspectaculo =
           ref(database, "espectaculo");
+
+        onValue(
+          referenciaDesfase,
+          (snapshot) => {
+            desfaseServidor =
+              typeof snapshot.val() === "number"
+                ? snapshot.val()
+                : 0;
+          }
+        );
 
         onValue(
           referenciaEspectaculo,
@@ -473,7 +817,7 @@
               "#39cb78"
             );
 
-            cambiarPantalla(snapshot.val());
+            procesarOrden(snapshot.val());
           },
 
           (error) => {
@@ -494,7 +838,7 @@
         firebaseIniciado = false;
 
         actualizarEstado(
-          "Firebase todavía no está configurado",
+          "No se ha podido conectar",
           "#e3362a"
         );
 
