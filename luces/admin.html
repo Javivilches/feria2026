@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1"
+  >
+
+  <meta name="theme-color" content="#15a858">
+
+  <title>Panel de control | Peña La Feria</title>
+
+  <style>
+    :root {
+      --verde-fondo: #15a858;
+      --verde-claro: #39cb78;
+      --verde-oscuro: #08723b;
+      --rojo: #e3362a;
+      --rojo-oscuro: #a51f18;
+      --amarillo: #f6b300;
+      --azul: #1565ff;
+      --negro: #080808;
+      --blanco: #ffffff;
+      --crema: #fff8e8;
+      --gris: #d9d9d9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background: var(--verde-fondo);
+      color: var(--blanco);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      padding: 24px;
+      background-color: var(--verde-fondo);
+      background-image:
+        radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.22) 0 8px,
+          transparent 9px
+        ),
+        radial-gradient(
+          circle,
+          rgba(227, 54, 42, 0.18) 0 5px,
+          transparent 6px
+        ),
+        linear-gradient(
+          145deg,
+          rgba(57, 203, 120, 0.5),
+          rgba(8, 114, 59, 0.55)
+        );
+      background-size:
+        68px 68px,
+        68px 68px,
+        100% 100%;
+      background-position:
+        0 0,
+        34px 34px,
+        0 0;
+    }
+
+    #panel {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding: 30px;
+      background: rgba(5, 35, 21, 0.92);
+      border: 3px solid var(--rojo);
+      border-radius: 28px;
+      box-shadow:
+        0 0 0 5px rgba(255, 255, 255, 0.13),
+        0 18px 55px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(9px);
+      -webkit-backdrop-filter: blur(9px);
+    }
+
+    #cabecera {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    #logo {
+      width: 125px;
+      height: 125px;
+      margin: 0 auto 16px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.4));
+    }
+
+    h1 {
+      font-size: clamp(27px, 5vw, 38px);
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    h1 span {
+      color: var(--verde-claro);
+    }
+
+    #subtitulo {
+      margin-top: 9px;
+      color: var(--crema);
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    #estadoConexion {
+      margin: 22px auto 0;
+      padding: 12px 16px;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    #indicador {
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: var(--amarillo);
+      box-shadow: 0 0 9px var(--amarillo);
+    }
+
+    .bloque {
+      margin-top: 25px;
+      padding: 21px;
+      border: 2px solid rgba(255, 255, 255, 0.78);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .bloque h2 {
+      margin-bottom: 17px;
+      font-size: 19px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #vistaPrevia {
+      width: 100%;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 3px solid var(--blanco);
+      border-radius: 17px;
+      background: var(--negro);
+      color: var(--blanco);
+      font-size: clamp(22px, 5vw, 42px);
+      font-weight: 900;
+      text-align: center;
+      text-transform: uppercase;
+      text-shadow: 0 3px 8px rgba(0, 0, 0, 0.65);
+      transition: background-color 0.12s linear;
+    }
+
+    #colores {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px;
+    }
+
+    .botonColor {
+      min-height: 72px;
+      padding: 10px;
+      border: 3px solid var(--blanco);
+      border-radius: 16px;
+      color: var(--blanco);
+      font-size: 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+      transition:
+        transform 0.08s ease,
+        box-shadow 0.08s ease;
+    }
+
+    .botonColor:active {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+    }
+
+    .rojo {
+      background: #ff1f12;
+    }
+
+    .verde {
+      background: #00d45d;
+    }
+
+    .azul {
+      background: #1565ff;
+    }
+
+    .amarillo {
+      background: #ffd400;
+      color: #111111;
+    }
+
+    .blanco {
+      background: #ffffff;
+      color: #111111;
+    }
+
+    .negro {
+      background: #000000;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 9px;
+      font-weight: 800;
+    }
+
+    #mensaje {
+      width: 100%;
+      min-height: 52px;
+      padding: 13px 15px;
+      border: 2px solid var(--blanco);
+      border-radius: 12px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--negro);
+      font-size: 16px;
+    }
+
+    #mensaje:focus {
+      border-color: var(--amarillo);
+      box-shadow: 0 0 0 3px rgba(246, 179, 0, 0.25);
+    }
+
+    #accionesMensaje {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+      margin-top: 14px;
+    }
+
+    .botonAccion {
+      min-height: 54px;
+      padding: 12px 16px;
+      border: 3px solid var(--blanco);
+      border-radius: 14px;
+      color: var(--blanco);
+      font-size: 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+    }
+
+    .botonAccion:active {
+      transform: translateY(5px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+    }
+
+    #enviarMensaje {
+      background: var(--verde-fondo);
+    }
+
+    #borrarMensaje {
+      background: #666666;
+    }
+
+    #apagar {
+      width: 100%;
+      min-height: 68px;
+      margin-top: 25px;
+      border: 4px solid var(--blanco);
+      border-radius: 18px;
+      background: var(--rojo);
+      color: var(--blanco);
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow:
+        0 8px 0 var(--rojo-oscuro),
+        0 12px 23px rgba(0, 0, 0, 0.3);
+    }
+
+    #apagar:active {
+      transform: translateY(6px);
+      box-shadow:
+        0 2px 0 var(--rojo-oscuro),
+        0 5px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    #respuesta {
+      min-height: 22px;
+      margin-top: 18px;
+      text-align: center;
+      color: #e3ffec;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 580px) {
+      body {
+        padding: 14px;
+      }
+
+      #panel {
+        padding: 23px 17px;
+      }
+
+      #logo {
+        width: 100px;
+        height: 100px;
+      }
+
+      #colores {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      #accionesMensaje {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main id="panel">
+
+    <header id="cabecera">
+
+      <img
+        id="logo"
+        src="./logo.png"
+        alt="Logo de Peña La Feria"
+      >
+
+      <h1>
+        Peña <span>La Feria</span>
+      </h1>
+
+      <p id="subtitulo">
+        Panel de control
+      </p>
+
+      <div id="estadoConexion">
+        <span id="indicador"></span>
+        <span id="textoConexion">
+          Firebase todavía no está configurado
+        </span>
+      </div>
+
+    </header>
+
+    <section class="bloque">
+
+      <h2>Vista previa</h2>
+
+      <div id="vistaPrevia">
+        Esperando
+      </div>
+
+    </section>
+
+    <section class="bloque">
+
+      <h2>Color de las pantallas</h2>
+
+      <div id="colores">
+
+        <button
+          class="botonColor rojo"
+          data-color="#ff1f12"
+          type="button"
+        >
+          Rojo
+        </button>
+
+        <button
+          class="botonColor verde"
+          data-color="#00d45d"
+          type="button"
+        >
+          Verde
+        </button>
+
+        <button
+          class="botonColor azul"
+          data-color="#1565ff"
+          type="button"
+        >
+          Azul
+        </button>
+
+        <button
+          class="botonColor amarillo"
+          data-color="#ffd400"
+          type="button"
+        >
+          Amarillo
+        </button>
+
+        <button
+          class="botonColor blanco"
+          data-color="#ffffff"
+          type="button"
+        >
+          Blanco
+        </button>
+
+        <button
+          class="botonColor negro"
+          data-color="#000000"
+          type="button"
+        >
+          Negro
+        </button>
+
+      </div>
+
+    </section>
+
+    <section class="bloque">
+
+      <h2>Mensaje en pantalla</h2>
+
+      <label for="mensaje">
+        Texto que aparecerá en los móviles
+      </label>
+
+      <input
+        id="mensaje"
+        type="text"
+        maxlength="60"
+        placeholder="Por ejemplo: ¡Viva la feria!"
+      >
+
+      <div id="accionesMensaje">
+
+        <button
+          id="enviarMensaje"
+          class="botonAccion"
+          type="button"
+        >
+          Mostrar mensaje
+        </button>
+
+        <button
+          id="borrarMensaje"
+          class="botonAccion"
+          type="button"
+        >
+          Quitar mensaje
+        </button>
+
+      </div>
+
+    </section>
+
+    <button id="apagar" type="button">
+      Apagar todas las pantallas
+    </button>
+
+    <div id="respuesta"></div>
+
+  </main>
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from
+      "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+    import {
+      getDatabase,
+      ref,
+      set,
+      onValue
+    } from
+      "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+    /*
+      Deben ser exactamente los mismos datos
+      que pondremos en index.html.
+    */
+
+    const firebaseConfig = {
+      apiKey: "PENDIENTE",
+      authDomain: "PENDIENTE.firebaseapp.com",
+      databaseURL:
+        "https://PENDIENTE-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "PENDIENTE",
+      storageBucket: "PENDIENTE.firebasestorage.app",
+      messagingSenderId: "PENDIENTE",
+      appId: "PENDIENTE"
+    };
+
+
+    const indicador =
+      document.getElementById("indicador");
+
+    const textoConexion =
+      document.getElementById("textoConexion");
+
+    const vistaPrevia =
+      document.getElementById("vistaPrevia");
+
+    const mensaje =
+      document.getElementById("mensaje");
+
+    const enviarMensaje =
+      document.getElementById("enviarMensaje");
+
+    const borrarMensaje =
+      document.getElementById("borrarMensaje");
+
+    const apagar =
+      document.getElementById("apagar");
+
+    const respuesta =
+      document.getElementById("respuesta");
+
+    const botonesColor =
+      document.querySelectorAll(".botonColor");
+
+
+    let database = null;
+    let referenciaEspectaculo = null;
+
+    let estadoActual = {
+      color: "#000000",
+      mensaje: ""
+    };
+
+
+    function actualizarConexion(texto, color) {
+      textoConexion.textContent = texto;
+      indicador.style.backgroundColor = color;
+      indicador.style.boxShadow = `0 0 9px ${color}`;
+    }
+
+
+    function actualizarVistaPrevia() {
+      vistaPrevia.style.backgroundColor =
+        estadoActual.color || "#000000";
+
+      vistaPrevia.textContent =
+        estadoActual.mensaje.trim() !== ""
+          ? estadoActual.mensaje
+          : "Esperando";
+
+      const coloresOscuros = [
+        "#000000",
+        "#ff1f12",
+        "#1565ff"
+      ];
+
+      vistaPrevia.style.color =
+        coloresOscuros.includes(
+          estadoActual.color.toLowerCase()
+        )
+          ? "#ffffff"
+          : "#111111";
+    }
+
+
+    function mostrarRespuesta(texto, esError = false) {
+      respuesta.textContent = texto;
+
+      respuesta.style.color =
+        esError
+          ? "#ffb0aa"
+          : "#e3ffec";
+
+      window.clearTimeout(
+        mostrarRespuesta.temporizador
+      );
+
+      mostrarRespuesta.temporizador =
+        window.setTimeout(() => {
+          respuesta.textContent = "";
+        }, 2500);
+    }
+
+
+    async function guardarEstado() {
+      if (!referenciaEspectaculo) {
+        mostrarRespuesta(
+          "Firebase todavía no está configurado",
+          true
+        );
+
+        return;
+      }
+
+      try {
+        await set(
+          referenciaEspectaculo,
+          estadoActual
+        );
+
+        mostrarRespuesta(
+          "Orden enviada a los móviles"
+        );
+
+      } catch (error) {
+        console.error(error);
+
+        mostrarRespuesta(
+          "No se ha podido enviar la orden",
+          true
+        );
+      }
+    }
+
+
+    function iniciarFirebase() {
+      try {
+        const app =
+          initializeApp(firebaseConfig);
+
+        database =
+          getDatabase(app);
+
+        referenciaEspectaculo =
+          ref(database, "espectaculo");
+
+        onValue(
+          referenciaEspectaculo,
+
+          (snapshot) => {
+            const datos = snapshot.val();
+
+            if (datos) {
+              estadoActual = {
+                color:
+                  typeof datos.color === "string"
+                    ? datos.color
+                    : "#000000",
+
+                mensaje:
+                  typeof datos.mensaje === "string"
+                    ? datos.mensaje
+                    : ""
+              };
+            }
+
+            actualizarVistaPrevia();
+
+            actualizarConexion(
+              "Conectado a Firebase",
+              "#39cb78"
+            );
+          },
+
+          (error) => {
+            console.error(error);
+
+            actualizarConexion(
+              "No se ha podido conectar",
+              "#e3362a"
+            );
+          }
+        );
+
+      } catch (error) {
+        console.error(error);
+
+        actualizarConexion(
+          "Firebase todavía no está configurado",
+          "#e3362a"
+        );
+      }
+    }
+
+
+    botonesColor.forEach((boton) => {
+      boton.addEventListener("click", async () => {
+        estadoActual.color =
+          boton.dataset.color;
+
+        actualizarVistaPrevia();
+        await guardarEstado();
+      });
+    });
+
+
+    enviarMensaje.addEventListener(
+      "click",
+
+      async () => {
+        estadoActual.mensaje =
+          mensaje.value.trim();
+
+        actualizarVistaPrevia();
+        await guardarEstado();
+      }
+    );
+
+
+    borrarMensaje.addEventListener(
+      "click",
+
+      async () => {
+        mensaje.value = "";
+        estadoActual.mensaje = "";
+
+        actualizarVistaPrevia();
+        await guardarEstado();
+      }
+    );
+
+
+    mensaje.addEventListener(
+      "keydown",
+
+      async (evento) => {
+        if (evento.key === "Enter") {
+          estadoActual.mensaje =
+            mensaje.value.trim();
+
+          actualizarVistaPrevia();
+          await guardarEstado();
+        }
+      }
+    );
+
+
+    apagar.addEventListener(
+      "click",
+
+      async () => {
+        estadoActual = {
+          color: "#000000",
+          mensaje: ""
+        };
+
+        mensaje.value = "";
+
+        actualizarVistaPrevia();
+        await guardarEstado();
+      }
+    );
+
+
+    actualizarVistaPrevia();
+    iniciarFirebase();
+
+  </script>
+
+</body>
+</html>
