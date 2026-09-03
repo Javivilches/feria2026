@@ -3,120 +3,383 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resultados de las votaciones | Peña La Feria 2026</title>
+
+<title>Pide tu canción | Peña La Feria</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-body{
-    font-family:Arial, Helvetica, sans-serif;
+    body {
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at 20% 15%, rgba(255,255,255,.12), transparent 25%),
+            radial-gradient(circle at 80% 85%, rgba(255,255,255,.08), transparent 30%),
+            #087a3d;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 12px;
+        color: #111;
+    }
 
-    background:
-    radial-gradient(circle at top left, rgba(255,255,255,.35), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(255,255,255,.25), transparent 40%),
-    repeating-linear-gradient(
-        45deg,
-        rgba(255,255,255,.04) 0px,
-        rgba(255,255,255,.04) 18px,
-        transparent 18px,
-        transparent 36px
-    ),
-    linear-gradient(180deg,#f6efdc 0%,#eadfc3 100%);
+    .cartel {
+        width: 100%;
+        max-width: 600px;
+        min-height: calc(100vh - 24px);
+        margin: auto;
+        position: relative;
+        overflow: hidden;
 
-    color:#222;
-}
+        background:
+            repeating-radial-gradient(
+                circle at center,
+                rgba(255,255,255,.035) 0,
+                rgba(255,255,255,.035) 2px,
+                transparent 3px,
+                transparent 15px
+            ),
+            repeating-linear-gradient(
+                12deg,
+                rgba(194,20,26,.025) 0px,
+                rgba(194,20,26,.025) 2px,
+                transparent 2px,
+                transparent 22px
+            ),
+            #f6d967;
 
-header{
-    text-align:center;
-    padding:40px 15px 25px;
-}
+        border: 5px solid #087a3d;
+        outline: 3px solid #d71920;
+        outline-offset: -11px;
 
-h1{
-    font-size:clamp(34px,6vw,64px);
-    color:#0b6d37;
-    text-transform:uppercase;
-    letter-spacing:2px;
-}
+        padding: 32px 22px 26px;
+        text-align: center;
+    }
 
-h2{
-    margin-top:10px;
-    color:#c62828;
-    font-size:clamp(18px,3vw,30px);
-    font-weight:bold;
-}
+    /* Pequeños adornos */
+    .nota {
+        position: absolute;
+        font-size: 36px;
+        font-weight: bold;
+        opacity: .95;
+        user-select: none;
+    }
 
-.contenedor{
-    width:min(1200px,95%);
-    margin:auto;
-    padding-bottom:50px;
-}
+    .nota1 {
+        top: 16%;
+        left: 5%;
+        color: #d71920;
+        transform: rotate(-12deg);
+    }
 
-.tarjeta{
-    background:white;
-    border:5px solid #008542;
-    border-radius:22px;
-    padding:14px;
-    margin-bottom:35px;
-    box-shadow:0 10px 35px rgba(0,0,0,.18);
-}
+    .nota2 {
+        top: 18%;
+        right: 5%;
+        color: #087a3d;
+        transform: rotate(12deg);
+    }
 
-.tarjeta img{
-    width:100%;
-    display:block;
-    border-radius:12px;
-}
+    .estrella {
+        position: absolute;
+        font-size: 27px;
+        font-weight: 900;
+        user-select: none;
+    }
 
-footer{
-    text-align:center;
-    padding:25px;
-    color:#0b6d37;
-    font-weight:bold;
-    font-size:18px;
-}
+    .e1 {
+        top: 5%;
+        left: 8%;
+        color: #087a3d;
+    }
 
-@media(max-width:700px){
+    .e2 {
+        top: 5%;
+        right: 8%;
+        color: #d71920;
+    }
 
-header{
-    padding-top:25px;
-}
+    /* CABECERA */
+    .titulo {
+        margin: 18px auto 22px;
+        width: 92%;
+        transform: rotate(-1deg);
+    }
 
-.tarjeta{
-    padding:8px;
-    border-width:3px;
-    margin-bottom:20px;
-}
+    .titulo-rojo,
+    .titulo-verde {
+        color: #fff7dc;
+        text-transform: uppercase;
+        font-family: Impact, "Arial Black", sans-serif;
+        letter-spacing: 2px;
+        line-height: .95;
+        padding: 10px 12px;
+        text-shadow: 2px 2px 0 rgba(0,0,0,.12);
+    }
 
-}
+    .titulo-rojo {
+        background: #d71920;
+        font-size: clamp(42px, 12vw, 70px);
+    }
+
+    .titulo-verde {
+        background: #087a3d;
+        font-size: clamp(48px, 14vw, 80px);
+    }
+
+    /* SUBTÍTULO */
+    .queremos {
+        color: #d71920;
+        font-family: Impact, "Arial Black", sans-serif;
+        font-size: clamp(24px, 7vw, 36px);
+        line-height: 1.08;
+        text-transform: uppercase;
+        margin: 26px auto 30px;
+        max-width: 500px;
+        transform: rotate(-1deg);
+    }
+
+    .queremos::after {
+        content: "";
+        display: block;
+        width: 55%;
+        height: 4px;
+        background: #087a3d;
+        margin: 12px auto 0;
+        border-radius: 20px;
+    }
+
+    /* TEXTOS */
+    .bloque {
+        max-width: 460px;
+        margin: 0 auto 23px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .icono {
+        width: 58px;
+        flex: 0 0 58px;
+        font-size: 45px;
+        text-align: center;
+    }
+
+    .bloque p {
+        font-size: clamp(18px, 4.8vw, 23px);
+        line-height: 1.25;
+        font-weight: 800;
+    }
+
+    .verde {
+        color: #087a3d;
+    }
+
+    .rojo {
+        color: #d71920;
+    }
+
+    .separador {
+        width: 70%;
+        margin: 8px auto 22px;
+        border: 0;
+        border-top: 5px dotted #087a3d;
+    }
+
+    /* BOTÓN */
+    .boton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 13px;
+
+        width: 94%;
+        max-width: 520px;
+        margin: 28px auto 19px;
+        padding: 19px 16px;
+
+        background: #d71920;
+        color: #fff7dc;
+        text-decoration: none;
+
+        border: 5px solid #087a3d;
+        outline: 3px solid #111;
+        outline-offset: 3px;
+        border-radius: 18px;
+
+        box-shadow:
+            0 6px 0 rgba(0,0,0,.18),
+            inset 0 0 0 2px rgba(255,255,255,.25);
+
+        transition: transform .15s ease;
+    }
+
+    .boton:active {
+        transform: scale(.97);
+    }
+
+    .auriculares {
+        font-size: 37px;
+        flex-shrink: 0;
+    }
+
+    .texto-boton {
+        font-family: Impact, "Arial Black", sans-serif;
+        font-size: clamp(27px, 7vw, 42px);
+        letter-spacing: 1px;
+        white-space: nowrap;
+
+        /* Parpadea SOLO el texto */
+        animation: parpadeo 1.25s infinite ease-in-out;
+    }
+
+    @keyframes parpadeo {
+        0%, 100% {
+            color: #fff7dc;
+            text-shadow: 0 0 0 transparent;
+        }
+
+        50% {
+            color: #ffd83d;
+            text-shadow:
+                0 0 7px rgba(255,216,61,.8),
+                0 0 15px rgba(255,216,61,.35);
+        }
+    }
+
+    /* Reduce animaciones si el usuario así lo tiene configurado */
+    @media (prefers-reduced-motion: reduce) {
+        .texto-boton {
+            animation: none;
+        }
+    }
+
+    /* NOTA FINAL */
+    .aviso {
+        max-width: 460px;
+        margin: 25px auto 20px;
+        font-size: clamp(16px, 4.2vw, 20px);
+        line-height: 1.35;
+        font-weight: 700;
+        font-style: italic;
+    }
+
+    .aviso strong {
+        color: #d71920;
+    }
+
+    /* LOGO */
+    .logo {
+        display: block;
+        width: 150px;
+        max-width: 42%;
+        height: auto;
+        margin: 25px auto 4px;
+    }
+
+    /* Móvil pequeño */
+    @media (max-width: 420px) {
+        body {
+            padding: 0;
+            background: #087a3d;
+        }
+
+        .cartel {
+            min-height: 100vh;
+            border-width: 4px;
+            padding: 25px 17px 22px;
+        }
+
+        .bloque {
+            gap: 11px;
+        }
+
+        .icono {
+            width: 45px;
+            flex-basis: 45px;
+            font-size: 37px;
+        }
+
+        .texto-boton {
+            font-size: 28px;
+        }
+
+        .auriculares {
+            font-size: 30px;
+        }
+    }
 </style>
-
 </head>
 
 <body>
 
-<header>
-<h1>Resultados de las votaciones</h1>
-<h2>Peña La Feria 2026</h2>
-</header>
+<main class="cartel">
 
-<div class="contenedor">
+    <span class="estrella e1">☆</span>
+    <span class="estrella e2">☆</span>
 
-<div class="tarjeta">
-    <img src="IMG-20260712-WA0078.jpg" alt="Votación a presidente">
-</div>
+    <span class="nota nota1">♫</span>
+    <span class="nota nota2">♪</span>
 
-<div class="tarjeta">
-    <img src="IMG-20260712-WA0080.jpg" alt="Resto de votaciones">
-</div>
+    <header class="titulo">
+        <div class="titulo-rojo">PIDE TU</div>
+        <div class="titulo-verde">CANCIÓN</div>
+    </header>
 
-</div>
+    <section class="queremos">
+        ¡QUEREMOS SABER<br>
+        QUÉ QUIERES ESCUCHAR!
+    </section>
 
-<footer>
-Peña La Feria · Feria de Andújar 2026
-</footer>
+    <section class="bloque">
+        <div class="icono">♫</div>
+
+        <p>
+            Dinos qué canción quieres escuchar y
+            <span class="verde">
+                la tendremos en cuenta para hacerla sonar.
+            </span>
+        </p>
+    </section>
+
+    <hr class="separador">
+
+    <section class="bloque">
+        <div class="icono">🎧</div>
+
+        <p>
+            Nuestro DJ irá encajando las peticiones
+            en el mejor momento para que
+            <span class="rojo">la fiesta no pare.</span>
+        </p>
+    </section>
+
+    <a
+        class="boton"
+        href="https://rekwest.app/qr/c3389356-bab1-475f-a781-38c8469c9a22"
+        aria-label="Pedir mi canción"
+    >
+        <span class="auriculares">🎧</span>
+        <span class="texto-boton">PEDIR MI CANCIÓN</span>
+    </a>
+
+    <p class="aviso">
+        Intentaremos atender todas las peticiones,<br>
+        aunque <strong>no siempre será posible.</strong>
+    </p>
+
+    <!--
+      Guarda el logo bueno en la misma carpeta
+      con el nombre logo.png
+    -->
+    <img
+        class="logo"
+        src="logo.png"
+        alt="Peña La Feria"
+    >
+
+</main>
 
 </body>
 </html>
