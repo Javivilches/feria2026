@@ -12,9 +12,9 @@
 
 <style>
 
-/* ==============================
-   RESETEO
-   ============================== */
+/* =========================================
+   RESETEO GENERAL
+   ========================================= */
 
 * {
     box-sizing: border-box;
@@ -27,32 +27,32 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+
+    /*
+       Mismo tono aproximado que el fondo
+       amarillo del cartel.
+    */
+    background: #f9df62;
 }
 
 body {
-    background: #087a3d;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 
-/* ==============================
-   CARTEL
-   ============================== */
+/* =========================================
+   CARTEL / IMAGEN
+   ========================================= */
 
 .cartel {
-
     position: relative;
 
     /*
-       El cartel siempre cabe entero
-       en la pantalla.
+       Ocupa toda la altura disponible,
+       pero nunca supera el ancho de pantalla.
     */
-
     height: 100vh;
     height: 100dvh;
 
@@ -60,58 +60,78 @@ body {
 
     aspect-ratio: 2 / 3;
 
-    background-image: url("pide.png");
+    /*
+       Por si queda algún mínimo espacio
+       alrededor de la imagen.
+    */
+    background-color: #f9df62;
 
+    background-image: url("pide.png");
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center center;
     background-size: contain;
 
+    overflow: hidden;
 }
 
 
-/* ==============================
-   POSICIÓN DEL BOTÓN
-
-   Si posteriormente quieres moverlo,
-   solo hay que tocar estos valores.
-   ============================== */
+/* =========================================
+   AJUSTES DEL BOTÓN
+   ========================================= */
 
 :root {
 
-    /* Más arriba que antes */
+    /*
+       POSICIÓN VERTICAL
+    */
     --boton-top: 64.5%;
 
-    /* Más estrecho */
-    --boton-left: 9%;
-    --boton-width: 77%;
+    /*
+       ANCHO
+    */
+    --boton-width: 74%;
 
+    /*
+       ALTURA
+    */
     --boton-height: 7.5%;
 
 }
 
 
-/* ==============================
+/* =========================================
    BOTÓN
-   ============================== */
+   ========================================= */
 
 .boton-peticion {
 
     position: absolute;
 
+    /*
+       Lo centramos matemáticamente.
+       Así no puede desplazarse hacia
+       izquierda o derecha.
+    */
+
+    left: 50%;
     top: var(--boton-top);
-    left: var(--boton-left);
+
+    transform: translateX(-50%);
 
     width: var(--boton-width);
     height: var(--boton-height);
+
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+
     text-decoration: none;
 
+
     /*
-       Fondo rojo vivo
+       ROJO DEL BOTÓN
     */
 
     background:
@@ -122,23 +142,27 @@ body {
             #c9000b 100%
         );
 
+
     /*
-       Primer borde verde
+       BORDE VERDE
     */
 
     border: 4px solid #079b49;
 
+
     /*
-       Segundo borde negro
+       BORDE NEGRO EXTERIOR
     */
 
     outline: 3px solid #111;
     outline-offset: 2px;
 
+
     border-radius: 14px;
 
+
     /*
-       Algo de volumen sin pasarnos
+       LIGERO VOLUMEN
     */
 
     box-shadow:
@@ -149,6 +173,7 @@ body {
         0 4px 0
         rgba(0,0,0,.25);
 
+
     cursor: pointer;
 
     -webkit-tap-highlight-color: transparent;
@@ -156,9 +181,9 @@ body {
 }
 
 
-/* ==============================
-   LÍNEA INTERIOR AMARILLA
-   ============================== */
+/* =========================================
+   BORDE AMARILLO INTERIOR
+   ========================================= */
 
 .boton-peticion::before {
 
@@ -180,19 +205,22 @@ body {
 }
 
 
-/* ==============================
-   TEXTO
-   ============================== */
+/* =========================================
+   TEXTO DEL BOTÓN
+   ========================================= */
 
 .texto-boton {
 
     position: relative;
+
     z-index: 2;
+
 
     font-family:
         Impact,
         "Arial Black",
         sans-serif;
+
 
     font-size: clamp(
         18px,
@@ -200,18 +228,27 @@ body {
         36px
     );
 
+
     font-weight: 900;
 
     letter-spacing: 1.4px;
 
     white-space: nowrap;
 
-    color: #ffffff;
 
     /*
-       Animación continua.
-       CSS puro: funciona también
-       en móvil.
+       Estado inicial
+    */
+
+    color: #ffffff;
+
+
+    /*
+       ANIMACIÓN
+
+       Incluyo también -webkit-
+       para mejorar compatibilidad
+       con móviles.
     */
 
     -webkit-animation:
@@ -229,9 +266,9 @@ body {
 }
 
 
-/* ==============================
-   PARPADEO / ILUMINACIÓN
-   ============================== */
+/* =========================================
+   ANIMACIÓN WEBKIT
+   ========================================= */
 
 @-webkit-keyframes luminoso {
 
@@ -246,6 +283,7 @@ body {
             2px 2px 0 #790000;
 
     }
+
 
     100% {
 
@@ -271,6 +309,10 @@ body {
 }
 
 
+/* =========================================
+   ANIMACIÓN ESTÁNDAR
+   ========================================= */
+
 @keyframes luminoso {
 
     0% {
@@ -283,6 +325,7 @@ body {
             2px 2px 0 #790000;
 
     }
+
 
     100% {
 
@@ -307,20 +350,28 @@ body {
 }
 
 
-/* ==============================
-   AL TOCAR EL BOTÓN
-   ============================== */
+/* =========================================
+   EFECTO AL PULSAR
+   ========================================= */
 
 .boton-peticion:active {
 
-    transform: scale(.97);
+    /*
+       IMPORTANTE:
+       mantenemos translateX(-50%)
+       para no perder el centrado.
+    */
+
+    transform:
+        translateX(-50%)
+        scale(.97);
 
 }
 
 
-/* ==============================
+/* =========================================
    MÓVILES PEQUEÑOS
-   ============================== */
+   ========================================= */
 
 @media (max-width: 400px) {
 
@@ -332,6 +383,7 @@ body {
 
     }
 
+
     .boton-peticion::before {
 
         top: 4px;
@@ -342,6 +394,7 @@ body {
         border-width: 1.5px;
 
     }
+
 
     .texto-boton {
 
@@ -356,9 +409,9 @@ body {
 }
 
 
-/* ==============================
+/* =========================================
    MÓVIL EN HORIZONTAL
-   ============================== */
+   ========================================= */
 
 @media (orientation: landscape) {
 
